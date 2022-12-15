@@ -79,3 +79,10 @@ a = int(a)
 
 print(a)
 >>3
+```
+
+### **2022-12-15**
+
+#### **쓰면 안되는 변수명들**
+
+False, None, True, and, as, assert, break, class, continue, def, del, elif, else, except, finally, for, from, global, if, import, in, is, lambda, nonlocal, not, or, pass, raise, return, try, while, with, yield
