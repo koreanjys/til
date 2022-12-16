@@ -86,3 +86,125 @@ print(a)
 #### **쓰면 안되는 변수명들**
 
 False, None, True, and, as, assert, break, class, continue, def, del, elif, else, except, finally, for, from, global, if, import, in, is, lambda, nonlocal, not, or, pass, raise, return, try, while, with, yield
+
+### **2022-12-16**
+
+#### **조건문**
+
+- 조건문의 생략 1
+
+조건문도 '단축평가'랑 비슷한 맥락으로 생각해본다.
+예를 들면, 미세먼지 'dust'가  150 초과면 매우 나쁨, 80초과 150이하면 나쁨, 30초과 80이하면 보통, 30이하면 좋음 인데, 이것을 작성한다면
+```
+dust = 151
+
+if 150 < dust:
+    print('매우 나쁨')
+elif 80 < dust <= 150:
+    print('나쁨')
+elif 30 < dust <= 80:
+    print('보통')
+elif dust <= 30:
+    print('좋음')
+```
+
+위와같이 작성을 한다.
+
+하지만, '단축평가'와 비슷한 맥락이라고 말 했듯이 
+
+아래와 같이 생략 할 수있다.
+```
+dust = 120
+
+if 150 < dust:
+    print('매우 나쁨')
+elif 80 < dust:
+    print('나쁨')
+elif 30 < dust:
+    print('보통')
+elif dust:
+    print('좋음')
+```
+dust값이 120이면 150보다 아래이기 때문에 위 조건부인 150 초과 부분이 걸러진다.
+
+그래서 그 아래 elif 80 < dust: 가 의미하는것이 80 < dust ( <= 150 )을 내포하고 있다.
+
+- 조건문의 생략 2
+
+홀짝과 비어있는것에 대한 조건문
+```
+n = 1
+
+if n % 2 == 1:
+    print('홀수')
+else:
+    print('짝수')
+
+```
+
+위 처럼 작성을 할수도 있지만 생략이 가능한 부분이 있다.
+
+생략을 해보자면
+
+```
+if n % 2:
+    print('홀수')
+else:
+    print('짝수')
+```
+위 처럼 쓸 수 있는 이유는, bool값이다. 숫자 0은 False고 0이 아닌 다른 수는 True이기 때문.
+
+그리고 
+```
+a = []
+
+if a:
+```
+위와 같이 쓸수도 있다. [] 빈 값은 False 이다.
+
+#### **삼항연산식** (조건문)
+```
+n = 2
+
+if n % 2:
+    print('홀수')
+else:
+    print('짝수')
+```
+위 식을 삼항연산식으로 바꾸면
+```
+n = 2
+
+print('홀수') if n % 2 else print('짝수')
+```
+즉 ( :콜론이 생략된다. )
+
+<True_value> if <조건문> else <False_value>
+
+
+#### **내포 for문으로 체스판 10 * 10 만들기**
+```
+pan = [[0 for zero in range(10)] for zzero in range(10)]
+```
+
+#### **enumerate 함수**
+for 문에서 index 값이 필요할때 쓰면 좋다.
+예시)
+```
+words = ['가', '나', '다', '라', '마']
+
+for x, y in enumerate(words):
+    print(x, y)
+
+>> 1 가
+>> 2 나
+>> 3 다
+>> 4 라
+>> 5 마
+```
+이렇게 된다.
+
+
+
+#### **오늘의 명언**
+- 조건문도 + - 같은 연산자다. 값을 도출하기 위한것이다.
