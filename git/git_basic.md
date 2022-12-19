@@ -98,7 +98,7 @@ $ git log --oneline
 
 ```sh
 $ git remote add origin <URL>
-```
+``` 
 
 7. 원격 저장소 확인하기
 
