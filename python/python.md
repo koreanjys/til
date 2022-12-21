@@ -221,3 +221,200 @@ def func(x, y):
 f = func(1, 2)
 >> 3
 ```
+
+### **2022-12-21**
+
+#### **함수 map 과 filter**
+
+map 예시
+```
+map(function, iterable)
+
+map(int, ['1', '2', '3])
+```
+
+map은 iterable의 요소를 function해주고 그 결과값을
+
+주소로 돌려준다.
+
+filter 예시
+```
+filter(function, iterable)
+
+filter(lambda x: x > 0, iterable)
+
+```
+filter는 iterable요소를 function(return 값이 True 나 False)으로 걸러서 True 값만 주소로 돌려준다.
+
+#### **LIST**
+리스트는 요소 변경이 가능하다.
+그래서 append 나 extend 같은 리스트 함수는
+사용했을때 리턴값이 없고, 즉각적으로 변화를 준다.
+
+예시
+```
+a = [1, 2, 3]
+a.append(4)
+```
+위와같은 경우에 리스트 a는 [1, 2, 3, 4]로 값이
+
+추가되어있다. 그리고  return 값이 없기 때문에
+
+b = a.append(4) 를 해도 변수 b는 None이 된다.
+
+extend 또한 마찬가지.
+
+리스트에 iterable(list, range, tuple, string) 값을 붙일 수가 있습니다.
+
+extend 예시를 보자
+
+```
+a = [1, 2, 3]
+a.extend([4, 5])
+```
+위와 같이 하면 a에는 [4, 5]가 추가되어
+
+a = [1, 2, 3, 4, 5] 가 된다.
+
+b = a.extend([4, 5]) 이것 역시 return 값이 없기
+
+때문에 b = None 과 같다.
+
+그리고 extend의 특징이 또 있는데
+
+항상 iterable 값이 들어가기 때문에
+
+문자열 'abcd' 이 'a','b','c','d' 로 되어 추가된다.
+
+예시를 보자
+
+```
+a = ['a','b','c','d']
+a.extend('efg')
+print(a)
+>> ['a','b','c','d', 'e', 'f', 'g']
+```
+위와같이 되므로 , 'efg'가 추가하고 싶다면
+
+['efg'] 이렇게 감싸주도록 하자
+
+#### **sort 와 sorted**
+- sorted(iterable)
+
+특징은 return 값이 있다. 원본 변수가 변하지 않는다.
+
+list 뿐만 아니라 다른데에도 쓸수있다.
+
+return값은 항상 list다.
+
+```
+nums = [3, 5, 2, None, 1, 4]
+sorted(nums)
+>> Traceback (most recent call last):
+   File "<stdin>", line 1, in <module>
+   TypeError: '<' not supported between instances of 'NoneType' and 'int'
+
+>>> sorted([num for num in nums if num])
+[1, 2, 3, 4, 5]
+```
+위와같이 서로 비교할수있는 값이 들어있어야 한다.
+
+그렇지 않으면 에러가 뜬다.
+
+sorted(iterable, key=function) 이렇게
+
+key값으로 설정을 할수도 있다.
+
+```
+>>> countries = [
+  {'code': 'KR', 'name': 'Korea'},
+  {'code': 'CA', 'name': 'Canada'},
+  {'code': 'US', 'name': 'United States'},
+  {'code': 'GB', 'name': 'United Kingdom'},
+  {'code': 'CN', 'name': 'China'}
+]
+```
+```
+>>> sorted(countries)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: '<' not supported between instances of 'dict' and 'dict'
+정렬 기준을 설정하려면 sorted() 함수의 key 옵션을 사용해야하는데요. key 옵션에 함수를 지정하면 각 원소에 이 함수를 호출한 결과를 기준으로 대소비교를 하게됩니다.
+
+예를 들어, 국가 코드를 기준으로 정렬을 해볼까요? 이 기준으로 영국(GB)이 한국(KR) 앞에 오게 되네요.
+
+>>> sorted(countries, key=lambda country: country["code"])
+[{'code': 'CA', 'name': 'Canada'}, {'code': 'CN', 'name': 'China'}, {'code': 'GB', 'name': 'United Kingdom'}, {'code': 'KR', 'name': 'Korea'}, {'code': 'US', 'name': 'United States'}]
+```
+
+
+- [list].sort()
+
+특징은 return값이 없고, 원본 변수가 즉각적으로 변한다.
+
+list에서만 쓴다.
+
+정렬 설정을 reverse=True 나 key=function 으로
+
+설정할수있다.
+
+예시
+
+```
+a = ['a5', 'c3', 'e1', 'b4', 'd2']
+a.sort(key=lambda x:x[1])
+print(a)
+>> ['e1', 'd2', 'c3', 'b4', 'a5']
+```
+이렇게도 되고
+```
+data_list = ['but','i','wont','hesitate','no','more','no','more','it','cannot','wait','im','yours']
+
+#중복 제거
+data_list = list(set(data_list))
+
+data_list.sort()
+data_list.sort(key=lambda x : len(x))
+
+print(data_list)
+```
+위처럼 길이별로도 된다.
+
+lambda x: len(x) 의 경우 len(x)를 하면 길이가
+
+2, 3, 5, 9 이런식으로 숫자로 반환되기때문에
+
+그 숫자가 작은 순서대로 정렬을 할것이다.
+
+```
+data_list = ['but','i','wont','hesitate','no','more','no','more','it','cannot','wait','im','yours']
+
+for index in range(len(data_list)) : 
+    data_len = len(data_list[index])
+    data_list[index] = (data_list[index], data_len)
+
+data_list.sort(key = lambda x :(x[1], x[0]))
+print(data_list)
+```
+위처럼 key=lambda x: (x[1], len(x)) 처럼
+
+(,)로 두가지 경우로 설정해서 정렬할수도 있다.
+
+
+#### **dictionary**
+
+- dictionary.setdefault(key, value)
+
+setdefault함수를 쓰면, key값이 없어도 value를 반환하고
+
+새로 추가가 된다.
+
+예를 보자
+
+```
+dic = {'a': 'apple', 'b': 'banana'}
+dic.setdefault('c', 'cat')
+>> cat
+print(dic)
+>>{'a': 'apple', 'b': 'banana', 'c': 'cat'}
+```
