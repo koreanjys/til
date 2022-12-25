@@ -445,3 +445,41 @@ __name__  은 파일이름
 
 __main__ 은 현재 본인 이름?
 
+```
+### **2022-12-23**
+
+#### **request**
+
+우선 pip install requests 를 해야한다.
+
+```
+# 뭐가 됐든 client 프로그램을(requests보낼수있는) 준비해서
+import requests
+
+url = 'https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=1046'
+
+# url을 통해 요청을 한다.(달라고한다)
+data = requests.get(url).json()
+
+for no in range(1036, 1047):
+    url = f'https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo={no}'
+    data = requests.get(url).json()
+    print(data['totSellamnt'])
+```
+```
+import requests
+
+key = '8cb1b55c87ce758e9389d6b2a2d7b92c'
+url = 'https://api.themoviedb.org/3/movie/upcomming?api_key=8cb1b55c87ce758e9389d6b2a2d7b92c&language=ko-KR'
+
+data = requests.get(url).json()
+-------------------------------------------------
+https://api.themoviedb.org/3
+/movie                           # 달라질 수 있음
+/latest
+?
+api_key=8cb1b55c87ce758e9389d6b2a2d7b92c
+&
+language=ko-KR
+--------------------------------------------------
+```
