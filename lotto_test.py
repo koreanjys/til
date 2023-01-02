@@ -1,5 +1,4 @@
-import time
-import random
+from random import random
 """
 import requests
 from time import sleep
@@ -81,7 +80,28 @@ num_list = number_list.split(',')
 ll = []
 for i in num_list:
     ll.append(i[7:-1])
-ll = list(map(int, ll))
-print(ll)
+    
 
-random.choices()
+ll = list(map(int, ll))
+
+# ll 에 인트값으로 idx 0~44까지 (로또번호 1부터 45번까지) 차례대로 등장 카운트 값이 담김 1047회까지
+# 1048회 반영
+
+ll[5] += 1
+ll[11] += 1
+ll[16] += 1
+ll[20] += 1
+ll[31] += 1
+ll[38] += 1
+ll[29] += 1
+
+# 확률 계산
+# 200을 기준으로 150회 등장이면 200 - 150
+# l 리스트에는 1부터 45 번호가 담김
+# ll 리스트에는 인덱스 0부터 인덱스 44까지 차례대로 번호1 부터 45번까지 등장한 횟수
+l = list(range(1, 46))
+
+
+test_1 = [1, 2, 3, 4, 5]
+test_2 = [10, 10, 10, 10, 10]
+
