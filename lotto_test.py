@@ -1,4 +1,4 @@
-from random import random
+import random
 """
 import requests
 from time import sleep
@@ -99,9 +99,19 @@ ll[29] += 1
 # 200을 기준으로 150회 등장이면 200 - 150
 # l 리스트에는 1부터 45 번호가 담김
 # ll 리스트에는 인덱스 0부터 인덱스 44까지 차례대로 번호1 부터 45번까지 등장한 횟수
+select = input('자주 나온 번호는 0번, 반대는 1번 선택 : ')
+
 l = list(range(1, 46))
+lucky_numbers = []
+if select == 0:
+    cut = 140
+else:
+    cut = 180
 
-
-test_1 = [1, 2, 3, 4, 5]
-test_2 = [10, 10, 10, 10, 10]
-
+for num, cnt in enumerate(ll):
+    n = random.randrange(1, (abs(cnt-cut))**7)
+    lucky_numbers.append((n, num))
+lucky_numbers.sort(reverse=True)
+lucky_numbers = lucky_numbers[:6]
+for i in lucky_numbers:
+    print(i[1], end=' ')
