@@ -14,3 +14,4 @@ def index(request):
 def hello(request):
 
     return render(request, 'review/hello.html')
+

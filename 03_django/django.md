@@ -72,9 +72,72 @@ CSS는 적용해보고 싶었지만 아직 잘 모르겠다.
 3. python manage.py startapp app_name
 4. settings 안에 인스톨앱 리스트에 app_name을 적어준다.
 5. 마스터앱의 urls.py 에 경로 지정 (include)를 쓰면 좋음
-6. 앱폴더 안에 urls.py를 만들어서 나머지 경로를 지정하고 views.py에 함수를 만들고 연결한다.
-7. 마스터앱 폴더안에 templates를 만들어서 base.html을 만들어 베이스를 만든다. {%%}를 이용. extends도 잘 적고.
-8. vscode extend에서 django를 다운로드 받고
-9. vscode settings 에서 인클루드랭귀지?를 잘 넣는다.
-10. 음 그리고 앱폴더안의 templates폴더에 .html을 작성해서 잘 꾸며서 실행해보자.
-11. 그리고 django를 vscode 익스텐드에서 잘 설치하였으면, html안에서 파이썬 문법을 {%}를 이용해서 사용할수 있게 된다. 
+6. 앱폴더 안에 urls.py를 만들어서 나머지 경로를 지정하고 views.py에 함수를 만들고 연결한다. views.py에 함수를 만들때 예시
+   ```
+from django.shortcuts import render
+from django.http.response import HttpResponse
+
+import random
+
+def hello_world(request):
+    # 응답으로 HTML을 렌더링 하겠다.
+    # django => 무조건 HTML 파일은 폴더명 templates/ 에서 찾는다.
+    return render(request, 'hello_world.html')
+
+
+def lunch(request):
+    menus = [
+        '짜장', '보쌈',
+        '삼겹살', '치킨',
+        '샐러드', '굶기',
+    ]
+    menu = random.choice(menus)
+    context = {
+        'menu': menu,
+    }
+    return render(request, 'lunch.html', context)
+
+def lotto(request):
+    numbers = random.sample(range(1, 46), 6)
+    numbers.sort()
+
+    context = {
+        'numbers': numbers,
+        'is_jackpot': True,
+    }
+    return render(request, 'lotto.html', context)
+    ```
+
+7. 마스터앱 폴더안에 templates를 만들어서 base.html을 만들어 베이스를 만든다. {%%}를 이용. 자식 html 첫부분에 {% extends 'base.html' %}도 잘 적고. 
+8. 마스터앱 폴더안에 settings에서 베이스html경로지정도 적어주자. => 'DIRS': [ BASE_DIR / 'templates', ],
+9.  vscode extend에서 django를 다운로드 받고
+10. vscode settings 에서 인클루드랭귀지?를 잘 넣는다.
+11. 음 그리고 앱폴더안의 templates폴더에 .html을 작성해서 잘 꾸며서 실행해보자.
+12. 그리고 django를 vscode 익스텐드에서 잘 설치하였으면, html안에서 파이썬 문법을 {%}를 이용해서 사용할수 있게 된다. 
+
+
+## 2023-01-05
+
+### 오늘의 핵심 내용 요약
+
+1. 어제와 동일한 URL => View => Template
+2. 앞으로 urls.py 에서 app_name = 'APP_NAME' 과 path('', views.func, name='PATTERN_NAME') 설정하기
+3. 템플릿에서 {% url 'APP_NAME:PATTERN_NAME' %} 으로 링크 생성 가능
+4. App 마다 html 파일 이름이 겹칠경우 django에서 제대로 인식하지 못함
+ 
+    >app/ > templates/ > app/ > html 파일들 방식으로 구분
+
+5. 사용자 입력을 받아보자
+    >Variable Routing
+    
+        1. url pattern 에서 'hello/<str:name>/' 식으로 원하는 부분 변수화 가능
+        2. 해당 URL과 매칭된 View 함수에서 def hello(reqeust, name): 으로 값 접근 가능
+    >Form & Input
+
+        1. 총 두가지 요청으로 구성됨! 입력창 받는 요청 / 데이터 제출하는 요청
+        2. <form action="URL" method="GET / POST"> 메서드는 선택가능
+        3. GET 은 입력내용이 URL에 다 나옴
+        4. POST 는 나오지 않지만 {% csrf_token %} 을 필요로 함
+        5. View 함수의 기본 인자 request 에서 넘어온 입력 데이터 접근가능
+        6. GET 요청의 데이터는 request.GET['key']
+        7. POST 요청의 데이터는 request.POST['key'] 로 접근

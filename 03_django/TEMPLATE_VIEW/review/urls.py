@@ -11,7 +11,7 @@ urlpatterns = [
     # 요청으로 들어온다는 뜻은 나한테 파일이 있다는게 아니고
     # 클라이언트가 url주소 끝에 ~/index/ 가 온다는 뜻임!
     path('index/', views.index, name='index'),
-    path('hello/', views.hello, name='hello')
+    path('hello/', views.hello, name='hello'),
 ]
 
 # review/hello/ => view hello 함수실행 => hello.html을 응답(렌더)

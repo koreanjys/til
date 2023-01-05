@@ -4,9 +4,15 @@
 
 {% block content %}
 
-<h1>Review/Index</h1>
+<h1 class="text-white bg-primary text-center">게시판</h1>
+<ul class="list-group">
+    <li class="list-group-item text-center">
+        <a class= "text-dark" href="{% url "review:index" %}">게시판 글 내용</a>
+    </li>
 
-<a href="{% url 'review:hello' %}">Hello</a>
-
+</ul>
+<button type="button" class="btn btn-primary text-white">
+    <a href="{% url 'review:memo' %}">글쓰기</a>
+</button>
 
 {% endblock content %}
