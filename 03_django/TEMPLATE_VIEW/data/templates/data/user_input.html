@@ -1,0 +1,20 @@
+{% include 'base.html' %}
+
+{% block content %}
+
+<h1>User Input</h1>
+
+<form action="{% url 'data:user_output' %}"method='POST'>
+    {% comment %} form에서 method='POST'를 넘길땐 밑에 csrf_token 필수 .최소한의 보안 {% endcomment %}
+    {% csrf_token %}
+    <input type="text" name='username'>
+    <input type="password" name='password'>
+
+    <div>
+        <label for="cel">섭씨: </label>
+        <input id="cel" type="number" name="cel">
+    </div>
+    <input type="submit">
+</form>
+
+{% endblock content %}
