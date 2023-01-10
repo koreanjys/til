@@ -1,0 +1,24 @@
+{% include 'board_base.html' %}
+
+{% block content %}
+
+<h1>Edit Posting</h1>
+
+<form action="{% url 'board:update' posting.pk %}" method="POST">
+    {% csrf_token %}
+    <div>
+        <label for="title">제목: </label>
+        <input id="title" name="subject" type="text" value="{{ posting.subject }}">
+    </div>
+
+    <div>
+        <label for="content">내용: </label>
+        <textarea name="description" id="content" cols="30" rows="10">{{ posting.description }}</textarea>
+    </div>
+
+    <div>
+        <input type="submit" value="얍">
+    </div>
+</form>
+
+{% endblock content %}
