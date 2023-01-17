@@ -119,4 +119,19 @@ ll[17] += 1
 # 200을 기준으로 150회 등장이면 200 - 150
 # l 리스트에는 1부터 45 번호가 담김
 # ll 리스트에는 인덱스 0부터 인덱스 44까지 차례대로 번호1 부터 45번까지 등장한 횟수
-print(ll)
+
+nums = []
+
+for i in ll:
+    nums.append(i**2)
+
+ns = []
+
+for idx, num in enumerate(nums):
+    ns.append((idx + 1, random.randrange(1, i)))
+
+ns.sort(key=lambda x: x[1])
+
+for i in ns[:6]:
+    print(i[0], end=' ')
+
