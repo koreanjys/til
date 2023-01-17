@@ -1,0 +1,20 @@
+{% include 'board_base.html' %}
+
+{% block content %}
+<h1>New Posting</h1>
+
+<form action="{% url 'board:create_posting' %}" method="POST">
+    {% csrf_token %}
+    <div>
+        <label for="subject">SUBJECT: </label>
+        <input type="text" id="subject" name="subject">
+    </div>
+    <div>
+        <label for="description">description</label>
+        <textarea name="description" id="description" cols="30" rows="10"></textarea>
+    </div>
+    <div>
+        <input type="submit">
+    </div>
+</form>
+{% endblock content %}

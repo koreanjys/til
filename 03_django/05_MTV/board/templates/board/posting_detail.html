@@ -1,0 +1,27 @@
+{% include 'board_base.html' %}
+
+{% block content %}
+
+<h1>{{ posting.subject }}</h1>
+
+<p>
+    <strong>
+        {{ posting.description }}
+    </strong>
+</p>
+
+<div>
+    <a href="{% url 'board:edit_posting' posting.pk %}">
+        <button>
+            수정
+        </button>
+    </a>
+    
+    <form action="{% url 'board:delete_posting' posting.pk %}" method="POST">
+        {% csrf_token %}
+        <!-- onclick 이후에 JS 코드 -->
+        <input onclick="return confirm('진짜 삭제?')" type="submit" value="삭제">
+    </form>
+</div>
+
+{% endblock content %}

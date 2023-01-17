@@ -1,0 +1,29 @@
+<!-- blog/index.html-->
+{% include 'base.html' %}
+
+{% block content %}
+<h1>Index</h1>
+
+{% comment %} 모든 게시글의 제목만 리스트로 확인 {% endcomment %}
+
+<ul>
+    {% comment %} 
+        DTL(Django Template Language)
+        - 괄호 없음
+        - 쉼표 없음
+        - 띄어쓰기로 구분
+    {% endcomment %}
+    
+    {% for article in articles %}
+        <li>
+            <a href="{% url 'blog:detail' article.pk %}">{{ article.title }}</a>
+            
+            {% comment %} 위/아래는 같은 결과!
+                <a href="/blog/{{ article.pk }}/">{{ article.title }}</a>
+            {% endcomment %}
+        </li>
+    {% endfor %}
+</ul>
+
+
+{% endblock content %}
