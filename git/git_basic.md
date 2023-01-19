@@ -140,3 +140,85 @@ $ git pull origin master
 |작업|`add`, `commit`|
 |작업 종료|`$ git push origin master`|
 |다른 컴퓨터에서 반복|`$ git pull origin master`|
+
+
+## **git branch**
+branch 는 여러 갈래로 버전을 만들 수 있다.
+
+### **명령어** 
+b1 이라는 branch를 생성한다.
+```
+git branch b1
+```
+- b1 이라는 branch로 이동한다.(HEAD가 b1을 가리킨다.)
+```
+git switch b1
+```
+- master(기존) 로 이동한다. (HEAD가 master를 가리킨다.)
+```
+git switch master
+```
+- master 가 b1 위치로 이동한다.
+```
+(master)
+git merge b1
+```
+- branch b2 생성과 HEAD 가리키는걸 동시에 하는법
+```
+git switch -c b2
+```
+- b1 과 b2 가 각자 개발한걸 합치는 방법
+```
+(b1 or b2)
+git merge (b1 or b2)
+```
+- HEAD 가 현재 가리키는걸 보는 법
+```
+git branch
+```
+
+### **branch 개발방법**
+
+1. HEAD 는 현재 (master) 를 가리키고 있다.
+2. branch 를 하나 생성한다.
+3. 생성한 branch 로 개발을 차근차근 해 나간다.
+4. 완전하게 잘 동작한다면 master 로 merge 한다.
+
+- github 에서 origin(remote) main 혹은 master 가 (master) 라고 보고
+나머진 git branch (name) 으로 생성해서 각각 commit
+
+### **단축키 만들기 Alias**
+
+- 명령어를 길게 쓰는게 번거롭다면 `git config`를 이용해 짧게 줄일 수 있다.
+```
+$ git config --global alias.sw switch
+$ git config --global alias.br branch
+$ git config --global alias.ci commit
+$ git config --global alias.st status
+```
+- 위 처럼 설정해 놓으면 `git status`를 `git st`로 짧게 쓸 수 있다.
+
+### **단축키 만들기 윈도우**
+
+- git이 아니고 windows 에서 bash shell 에 단축키 만들려면
+- 홈 디렉토리에 `.bash_profile` 을 만들어서 
+```
+alias gl='git log --oneline --graph'
+alias jn='jupyter notebook'
+```
+위와 같은 내용을 적어 넣으면 된다.
+
+### **Git merge**
+
+1. Fast Forward Merge
+   - 가장 기본적인 merge는 바로 Fast Forward Merge이다. 현재 branch 의 HEAD 가 대상 branch 의 HEAD 까지로 옮기는 merge 이다. Fast Forward Merge 는 다음 명령어를 통해 가능하다.
+
+```
+$ git switch [branch] => 기존 branch 를 현재 branch로 HEAD를 지정한다.
+
+
+$ git merge [대상 branch] => 현재 branch 를 대상 branch로 덮어쓴다.
+```
+
+이후 작성은 https://kotlinworld.com/277#Fast%--Forward%--Merge 참조
+
