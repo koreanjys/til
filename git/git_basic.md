@@ -167,7 +167,7 @@ git merge b1
 ```
 git switch -c b2
 ```
-- b1 과 b2 가 각자 개발한걸 합치는 방법
+- b1 과 b2 가 각자 개발한걸 합치는 방법 (`git pull` 이 merge와 ??을 동시에 담당하는 명령어다)
 ```
 (b1 or b2)
 git merge (b1 or b2)
