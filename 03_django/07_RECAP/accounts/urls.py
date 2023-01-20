@@ -11,4 +11,8 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     # accounts/logout/
     path('logout/', views.logout, name='logout'),
+    # accounts/neo/
+    path('<username>/', views.profile, name='profile'),
+    # accounts/neo/follow/
+    path('<username>/follow/', views.follow, name='follow'),
 ]

@@ -1,10 +1,11 @@
 <!-- polls/question_index.html -->
-
 {% extends 'base.html' %}
+
+{% load static %}
 
 {% block content %}
 <h1>Questions</h1>
-
+<img src="{% static 'tree.jpg' %}" alt="tree">
 <ul>
     {% for question in questions %}
     <li>
