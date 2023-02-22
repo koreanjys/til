@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container my-5">
+    <h1 class="text-center mb-5">Welcome to my site!</h1>
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <p class="text-center">
+          This is a sample homepage. You can add your own content here or modify this page as you see fit.
+        </p>
+        <p class="text-center">
+          Please <a href="{% url 'accounts:signup' %}">sign up</a> or <a href="{% url 'accounts:login' %}">log in</a> to use the site.
+        </p>
+      </div>
+    </div>
+  </div>
+{% endblock %}
