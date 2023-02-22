@@ -1,5 +1,6 @@
+# accounts/views.py
+
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm
 from .forms import CustomUserCreationForm
 
 def signup(request):
@@ -10,4 +11,4 @@ def signup(request):
             return redirect('home')
     else:
         form = CustomUserCreationForm()
-    return render(request, 'accounts/signup.html', {'form': form})
+    return render(request, 'registration/signup.html', {'form': form})
