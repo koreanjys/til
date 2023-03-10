@@ -1,0 +1,7 @@
+Visual  Studio Code (통합개발환경)
+
+Sublime Text  > 서포트?
+
+Deep Note > jupyter notebook 보완
+
+Colab > 협업 가능하나 라이브러리 설치 버전이 안맞음
