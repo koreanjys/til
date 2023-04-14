@@ -1,6 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/windows,python,django
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,python,django
 
+# naver api key
+projects/sw_academy_projects/04_final_project/webcrawling/API_KEY.txt
+
 ### Django ###
 *.log
 *.pot
