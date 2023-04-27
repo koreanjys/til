@@ -1,1 +1,2 @@
 django에 kobert 넣었음
+크롤링한 리뷰를 kobert로 리뷰점수 0~5점 사이로 매김
