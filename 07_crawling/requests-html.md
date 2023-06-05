@@ -14,7 +14,7 @@ import nest_asyncio
 from requests_html import AsyncHTMLSession
 ```
 
-## `nest_asyncio 활성화`
+## nest_asyncio 활성화 (활성화 하지 않아도 코드만 잘 쓰면 에러 발생 안함)
 
 - 여기서 nest_asyncio를 활성화 시켜 줘야 에러가 발생하지 않았다.
 - 위에서 말한 에러는 이벤트 루프가 실행중이라 렌더링 못한다는 에러다.(jupyter notebook 기준)
@@ -23,19 +23,19 @@ from requests_html import AsyncHTMLSession
 nest_asyncio.apply()
 ```
 - 위 코드가 기본적으로 실행 되어 있어야 한다.
+- 다시 해보니 없어도 잘 렌더링 됐음
 
 ## `렌더링`
 
 ```
-import nest_asyncio
-from requests_html import AsyncHTMLSession
-
-# nest_asyncio 활성화
-nest_asyncio.apply()
-
 # 비동기 세션 생성
 asession = AsyncHTMLSession()
 url = 'https://www.kintex.com/web/ko/event/list.do?searchType=&searchStartMon=202305&searchEndMon=202305&searchStartDt=&searchEndDt='
 r = await asession.get(url)
+
+# 비동기 렌더링 코드
+await r.html.arender()
 ```
-- 위와 같이 비동기 세션을 생성한 후 .get(url)로 크롤링해왔다.
+- 위와 같이 비동기 세션을 생성한 후 렌더링
+
+- await 을 써줘야 작동을 하는듯. 기다려라 라는 명령어
