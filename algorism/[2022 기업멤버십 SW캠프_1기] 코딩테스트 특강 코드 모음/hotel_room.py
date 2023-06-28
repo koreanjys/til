@@ -1,31 +1,42 @@
-'''
-외톨이 알파벳 = 2회 이상 2부분
+def solution(queries):
+    
+    
+    # 마지막 n세대
+    n = sorted(queries)[-1][0]
+    
+    # 리스트
+    p_list = ['Rr' for _ in range(n)]
 
-'''
-def solution(input_string):
-    answer = ''
-    
-    dic = {}
-    
-    for idx, st in enumerate(input_string):
+    # 세대 증식
+    for i in range(1, n):
+        # 1세대부터 n세대 까지 (index_0 은 1세대)
         
-        dic[st] = 0
-        
-        if idx > 0:
-            if st == input_string[idx - 1]:
-                pass
-            else:
-                dic[st] += 1
-                
-        # 첫 인덱스 문자열은 cnt + 1
+        # 홀수 세대는 Rr 짝수 세대는 Tt
+        # i는 인덱스라 0부터 시작, 고로 i 짝수가 곧 홀수
+        if i % 2 == 1:  # 짝수세대
+            p_list[i] = p_list[i-1].replace('RR', 'TT'*4).replace('Rr', 'TTTtTttt').replace('rr', 'tt'*4)
         else:
-            dic[st] += 1
-        
-        # 외톨이 문자를 알파벳 순으로
-        answer = list(filter(lambda x: dic[x] > 1))
-        if answer:
-            answer.sort(reverse=True)
-            answer = ''.join(answer)
+            p_list[i] = p_list[i-1].replace('TT', 'RR'*4).replace('Tt', 'RRRrRrrr').replace('tt', 'rr'*4)
+    
+    answer = []
+    for n, p in queries:
+        if n == 1:
+            char = 'Rr'
         else:
-            answer = "N"
+            char = p_list[n-1][p*2-2:p*2]
+            char = char.replace('T', 'R').replace('t', 'r')
+        answer.append(char)
     return answer
+
+print(solution([[16, 2]]))
+        
+                    
+                    
+                    
+                
+        
+        
+        
+        
+        
+        
