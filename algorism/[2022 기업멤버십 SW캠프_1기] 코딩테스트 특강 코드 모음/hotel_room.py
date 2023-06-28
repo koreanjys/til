@@ -1,44 +1,31 @@
-from itertools import permutations, combinations
-from functools import cmp_to_key
+'''
+외톨이 알파벳 = 2회 이상 2부분
 
-def solution(k, room_number):
-    answer = []
-
-    for num in room_number:
-        _num = num
-        while _num in answer:
-            _num += 1
-        answer.append(_num)
+'''
+def solution(input_string):
+    answer = ''
     
+    dic = {}
+    
+    for idx, st in enumerate(input_string):
+        
+        dic[st] = 0
+        
+        if idx > 0:
+            if st == input_string[idx - 1]:
+                pass
+            else:
+                dic[st] += 1
+                
+        # 첫 인덱스 문자열은 cnt + 1
+        else:
+            dic[st] += 1
+        
+        # 외톨이 문자를 알파벳 순으로
+        answer = list(filter(lambda x: dic[x] > 1))
+        if answer:
+            answer.sort(reverse=True)
+            answer = ''.join(answer)
+        else:
+            answer = "N"
     return answer
-
-
-
-'''
-k = 방 개수
-
-rooms = {}
-
-
-'''
-
-def solve(k, room_number):
-    answer = []
-
-'''
-2차원 평면 위 
-N = 점 개수
-점 (x, y) 좌표
-
-1. y좌표 오름차순 정렬
-
-2. y좌표가 같으면 x좌표 증가하는 순으로 좌표 정렬
-'''
-
-N_list = [(0, 4), (1, 2), (1, -1), (2, 2), (3, 3)]
-
-# 정렬 후 값 [(1, -1), (1, 2), (2, 2), (3, 3), (0, 4)]
-
-# N_list = sorted()
-
-help(sorted)
