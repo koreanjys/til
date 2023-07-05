@@ -1,6 +1,6 @@
 ※ 두번째 줄부터 => ID // PassWord // IP // Port // db_name
-ID
-password
+sjy
+dnflwlq87!
 127.0.0.1
 3306
-db_name
+eventdb

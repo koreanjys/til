@@ -91,7 +91,7 @@ sources = Table(
 
 # df 변수에 tables.xlsx 파일의 events 테이블 설계를 불러옴
 # pd.read_excel('엑셀파일명', usecols=사용할 컬럼 범위, skiprows=무시할 행 수, nrows=사용할 행 수, na_values=결측값 처리)
-df = pd.read_excel('tables.xlsx', usecols=range(1, 10), skiprows=39, nrows=21, na_values='')
+df = pd.read_excel('tables.xlsx', usecols=range(1, 10), skiprows=39, nrows=22, na_values='')
 
 
 # 불러온 테이블 설계의 Columns의 타입을 ORM에 맞게 변경
@@ -168,4 +168,5 @@ ss_df = pd.read_excel('sources.xlsx', index_col='source_id')
 # ss_df 변수에 저장된 것을 Mysql에 저장
 ss_df.to_sql(name='sources', con=engine, if_exists='append', index=False, dtype=dtype)
 
+print('Tables 생성 완료')
 ###################################################################################################################################################

@@ -7,7 +7,7 @@ import pandas as pd
 # Mysql과 python 연동을 위한 sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import Table, MetaData, insert, delete, select, update
+from sqlalchemy import Table, MetaData, insert, delete, select, update, and_
 
 # 날짜 모듈
 from datetime import datetime, date, timedelta
@@ -45,15 +45,18 @@ import chromedriver_autoinstaller
 chromedriver_autoinstaller.install()
 
 
+
 ###################################################################################################################################################
 # selenium 옵션 정의
 ###################################################################################################################################################
 
 options = webdriver.ChromeOptions()  # 옵션 정의
 options.add_argument("headless")  # 크롬드라이버 창이 뜨지 않게 함. 백그라운드 실행
+options.add_argument('window-size=1920x1080')  # 창 크기 조절
 # options.add_argument("no-sandbox")  # docker 사용 시 보안 error문제 해결
 options.add_argument("disable-gpu")  # GPU 사용 안함
 options.add_argument("lang=ko-KR")  # 언어팩을 한국어로
+options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
 # (중요) 유저 정보 값. 봇이 아니라는 표시
 options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36")
@@ -108,6 +111,9 @@ plants = ['카네이션', '달맞이꽃', '낙엽', '오이백리향', '데이�
 
 # Mysql의 sources 테이블 불러오기
 sources_table = Table('sources', metadata, autoload_with=engine)
+
+# Mysql의 events 테이블 불러오기
+events_table = Table('events', metadata, autoload_with=engine)
 
 # url 디코딩 방지
 params = {'encoding': quote_plus('utf8')}
@@ -321,10 +327,12 @@ def crawling_detail(idx):  # 매개변수는 소스테이블 index 값
         title = is_tag(sources_df['title_tag'][idx])  # 행사 제목
         
         # 몇몇 URL은 정보가 너무 적음. 그래서 overview에 "상세 정보 홈페이지 참조" 라는 문구를 넣음
-        if sources_df['source_id'][idx] in [4, 13, 14, 19, 20, 21]:  # source_id 4, 13, 14, 19, 20, 21 상세 정보 부족
-            overview = "상세 정보 홈페이지 참조"
-        else:
-            overview = is_tag(sources_df['overview_tag'][idx])  # 상세 정보
+        # if sources_df['source_id'][idx] in [4, 13, 14, 19, 20, 21]:  # source_id 4, 13, 14, 19, 20, 21 상세 정보 부족
+        #     overview = "상세 정보 홈페이지 참조"
+        # else:
+        #     overview = is_tag(sources_df['overview_tag'][idx])  # 상세 정보
+
+        overview = is_tag(sources_df['overview_tag'][idx])  # 상세 정보
             
         
         ################# 크롤링 된 행사 날짜를 시작,종료 날짜로 분할 (종료된 행사를 처리할 때 필요) ############################
@@ -392,18 +400,12 @@ def crawling_detail(idx):  # 매개변수는 소스테이블 index 값
         superviser = is_tag(sources_df['superviser_tag'][idx])  # 행사 주관
         sponsor = is_tag(sources_df['sponsor_tag'][idx])  # 행사 후원
         pay = is_tag(sources_df['pay_tag'][idx])  # 행사 비용
-        
-
-        # 홈페이지는 href를 가져와야 하기 때문에 별도 처리 필요
-        homepage = is_tag(sources_df['homepage_tag'][idx])  # 행사 홈페이지
-
-        # 홈페이지 URL이 따로 없다면 현재 상세정보 URL을 홈페이지 값으로 가져옴
-        if not homepage:
-            homepage = driver.current_url
+        homepage = driver.current_url  # 현재 상세정보 홈페이지 url
         
         tel = is_tag(sources_df['tel_tag'][idx])  # 행사 문의 전화번호
         sns = is_tag(sources_df['sns_tag'][idx])  # 행사 문의 이메일 등
         insert_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # 행사 정보를 가져온 날짜
+        update_date = None  # 업데이트 날짜
 
         crawling_info = 0  # 행사 정보 (0=처음 가져옴, 1=서비스에 적용 중 => 바로 서비스에 적용하려면 1로 변경) 
         
@@ -428,6 +430,7 @@ def crawling_detail(idx):  # 매개변수는 소스테이블 index 값
             'tel': tel,
             'sns': sns,
             'insert_date': insert_date,
+            'update_date': update_date,
             'crawling_info': crawling_info
         }
         # 위에 정의한 동식물 키워드를 참조해 동식물 관련 행사만 담기
@@ -439,17 +442,71 @@ def crawling_detail(idx):  # 매개변수는 소스테이블 index 값
                 val['class_type'] = 1  # 동식물 분류 코드 1
 
         if val['class_type'] < 2:  # 동식물 행사 정보만 남김
-            if val['end_date']:  # 종료된 행사는 제외
-                if datetime.strptime(val['end_date'], '%Y-%m-%d') > datetime.now():
-                    vals.append(val)
+            if val['end_date']:
+                if datetime.strptime(val['end_date'], '%Y-%m-%d') > datetime.now():  # 종료된 행사는 제외
+                    
+                    # 크롤링 된 값을 events 테이블에 저장
+                    # title과 date가 같은 데이터가 이미 존재하는지 확인하는 SELECT 문
+                    stmt = select(events_table).where(
+                            events_table.c.title == val['title'],
+                    )
+                    result = session.execute(stmt)
+                    # 중복이 아니라면 값 추가
+                    if result.rowcount == 0:
+                        stmt = insert(events_table).values(**val)
+                        session.execute(stmt)
+                        session.commit()
+                    
+                    # 중복이라면 시작날짜와 종료날짜를 한번 더 확인하고, 다르다면 값 업데이트(crawling_info를 2로. 0=새로 들어온 데이터, 1=운영중, 2=업데이트 된 데이터)
+                    else:
+                        row = result.fetchone()  # row에 result값 적용
+                        if row.start_date != val['start_date'] or row.end_date != val['end_date']:  # 만약 row 시작날짜나 종료날짜가 다르다면, 업데이트
+                            stmt = update(events_table).where(
+                                events_table.c.title == val['title']
+                            ).values(
+                                start_date=val['start_date'],
+                                end_date=val['end_date'],
+                                update_date=datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                                crawling_info=2,
+                            )
+                            session.execute(stmt)
+                            session.commit()
+                    session.close()
+            # 종료 날짜가 없어도 처리
             else:
-                vals.append(val)
+                    # 크롤링 된 값을 events 테이블에 저장
+                    # title과 date가 같은 데이터가 이미 존재하는지 확인하는 SELECT 문
+                    stmt = select(events_table).where(
+                            events_table.c.title == val['title'],
+                    )
+                    result = session.execute(stmt)
+                    # 중복이 아니라면 값 추가
+                    if result.rowcount == 0:
+                        stmt = insert(events_table).values(**val)
+                        session.execute(stmt)
+                        session.commit()
+                    
+                    # 중복이라면 시작날짜와 종료날짜를 한번 더 확인하고, 다르다면 값 업데이트(crawling_info를 2로. 0=새로 들어온 데이터, 1=운영중, 2=업데이트 된 데이터)
+                    else:
+                        row = result.fetchone()  # row에 result값 적용
+                        if row.start_date != val['start_date'] or row.end_date != val['end_date']:  # 만약 row 시작날짜나 종료날짜가 다르다면, 업데이트
+                            stmt = update(events_table).where(
+                                events_table.c.title == val['title']
+                            ).values(
+                                start_date=val['start_date'],
+                                end_date=val['end_date'],
+                                update_date=datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                                crawling_info=2,
+                            )
+                            session.execute(stmt)
+                            session.commit()
+                    session.close()
 
         driver.back()  # 페이지 뒤로가기
         time.sleep(1)  # 1초 대기
         close_new_tabs()  # 팝업 창 닫기
     
-    return vals
+    # print("값 추가")
 ###################################################################################################################################################
 
 
@@ -466,7 +523,7 @@ for idx in tqdm(range(sources_len), desc="Total"):
     ################ 크롤링 주기 ##################
 
     # 처음 크롤링이라면 날짜 상관없이 크롤링
-    if sources_df['crawling_date'][idx]:
+    if pd.notna(sources_df['crawling_date'][idx]):
         # 매 주 월요일 크롤링
         if sources_df['cycles'][idx] == 1:  # cycle 값이 1이면 매주 크롤링
             if datetime.now().weekday() == 0:  # 매주 월요일 크롤링
@@ -488,8 +545,8 @@ for idx in tqdm(range(sources_len), desc="Total"):
         pass
     ##############################################
     
-    # 크롤링 정보를 데이터 프레임으로 담기
-    detail_df = pd.DataFrame(crawling_detail(idx))
+    # 크롤링 => Mysql에 값 넣기
+    crawling_detail(idx)
     
     # crawling_date를 현재 시간으로 변경
     stmt = update(sources_table).where(sources_table.c.source_id==sources_df['source_id'][idx]).values(crawling_date=datetime.now())
@@ -497,13 +554,6 @@ for idx in tqdm(range(sources_len), desc="Total"):
     session.commit()
     session.close()
     
-    # detail_df를 events_df에 추가, 중복된 값은 제거 (title과 start_date 가 같다면 중복값 제거)
-    events_df = events_df.append(detail_df, ignore_index=True)  # detail_df를 events_df에 추가
-    events_df.drop_duplicates(subset=['title', 'start_date'], inplace=True)  # 중복값 제거
-
-# mysql 저장
-events_df = events_df.loc[events_df['event_id'].isna()]  # event_id 할당이 되지 않은거만 남김(새로운 행사 정보만 남김)
-events_df.to_sql(name='events', con=engine, if_exists='append', index=False)  # mysql에 행사 정보 추가
 # 크롬드라이버 종료
 driver.quit()
 
