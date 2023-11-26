@@ -403,3 +403,49 @@ $ docker run --name mysql -p 3306:3306 -v ${pwd}:/var/lib/mysql -e MYSQL_ROOT_PA
 그리고 DbVisualizer에서 다시 접속해서 lainyzine 데이터베이스를 확인한다. 위 명령어를 자세히 보면 환경변수가 적용되는지 확인할 수 있도록 패스워드 값도 변경했으니 참고한다.
 
 환경변수로 설정값을 지정하거나, 데이터를 호스트 디렉터리에 저장하는 패턴은 Docker에서는 자주 사용하는 패턴이니, 꼭 직접 실행해보고 익숙해지자.
+
+
+## **Part.3 Docker 이미지 생성**
+
+### 3.1 docker build
+
+`docker build` 명령어는 `docker image`를 빌드할 때 다음 두가지를 사용한다.
+
+- `Dockerfile`
+- `build context`
+
+`Dockerfile`은 텍스트 파일이고, build 시 사용될 명령어들을 모아놓은 것이다.
+
+`build context`는 `PATH`또는 `URL`을 통해 **지정된 다수의 파일을 갖는 경로(위치)**이다.
+
+여기서 말하는 `PATH`는 현재 로컬의 파일 시스템의 디렉터리이고, `URL`은 `Git repository`의 위치이다.
+
+이런 context 경로는 하위의 모든 것들을 재귀적(recursively)으로 build 시에 사용한다.
+
+`docker build`명령어를 아래처럼 사용하면 현재 디렉터리를 `build context`로 지정한 것이다.
+```
+$ docker build .
+# . 은 현재 경로를 의미
+```
+
+`docker build`의 실제 처리는 `Docker daemon`이 한다.
+
+`docker build` 요청이 시작되면, 제일 먼저 `Docker daemon`에게 `build context`의 하위 모든 파일에 대한 정보(contents)를 전송한다.
+
+`build context`내에서 원치 않는 build에 사용하지 말았으면, 즉 무시했으면 하는 목록도 존재한다. 그런것은 `.dockerignore`파일에 기재하면 된다.
+
+일반적으로 Dockerfile은 `build context`의 root 경로에 넣는다. 하지만 다른 경로에 있는 Dockerfile을 쓰고 싶다면 아래처럼 한다.
+
+```
+$ docker build -f /path/to/a/Dockerfile .
+```
+
+`Docker daemon`은 `docker build` 명령어를 수행하는 과정에서 `Dockerfile`을 사용한다. 그리고 안에 기재된 명령어들을 수행한다.
+
+필요하다면 하나의 명령어의 결과에 대해서 새로운 이미지를 중간에 생성한다. 최종적으로 build가 완료되면 최종 완성 이미지의 ID를 출력하고 `Docker daemon`에서 사용된 `build context`의 모든 정보들은 clean up 된다.
+
+`docker build`는 `build cache`라는 것을 사용한다. 기존에 `docker build`를 통해서 생성된 이 캐시는 이후에 build할 때 사용되어 더욱 빠른 빌드 속도를 낸다.
+
+
+### 3.2 Dockerfile 포맷
+
