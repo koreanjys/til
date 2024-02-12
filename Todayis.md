@@ -5,3 +5,7 @@
 
 ## 231218
 SQL로 데이터베이스 구축은 해봤고, 이제 몽고DB와 FastAPI
+
+## 20240212
+FastAPI 페이징 처리 설명글
+[FastAPI 페이징 바로가기](https://mopil.tistory.com/66)
