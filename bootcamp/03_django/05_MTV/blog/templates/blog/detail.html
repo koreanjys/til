@@ -1,0 +1,30 @@
+{% include 'base.html' %}
+
+{% block content %}
+
+<h1>{{ article.title }}</h1>
+
+<span>
+    {{ article.created_at }} |
+    {{ article.updated_at }}
+</span>
+
+<p>
+    {{ article.content }}
+</p>
+
+<div>
+    
+    <a href="{% url 'blog:edit' article.pk %}">
+        <button>수정</button>
+    </a>
+    
+    <!-- /blog/{{ article.pk }}/delete/ -->
+    <form action="{% url 'blog:delete' article.pk %}" method="POST">
+        {% csrf_token %}
+        <input type="submit" value="삭제">
+    </form>
+</div>
+
+
+{% endblock content %}

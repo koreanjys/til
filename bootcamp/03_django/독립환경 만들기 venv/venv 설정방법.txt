@@ -1,0 +1,26 @@
+$ mkdir MTV
+$ cd MTV
+$ python -m venv venv  # 독립 환경 생성
+$ touch .gitignore  # => https://gitignore.io 에서 "python" "django" "venv" 입력하고 내용 복붙
+$ touch README.md
+
+# Windows venv 활성화
+$ source venv/Scripts/activate
+# Mac venv 활성화
+$ source venv/bin/activate
+
+(venv)  # 확인
+$ pip install django==3.2.16
+(venv)
+$ django-admin startproject mtv .
+(venv)
+$ code . (vscode 로 열기)
+
+# 만약 추가 설치한 패키지들이 있다면
+$ pip freeze > requirements.txt
+
+# 만약 문제가 생길시 
+$ rm -rf venv
+$ python -m venv venv
+$ python manage.py req(tab으로 자동완성)
+$ 터미널창 다시 열기

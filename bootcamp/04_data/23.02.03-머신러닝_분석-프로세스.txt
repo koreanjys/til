@@ -1,0 +1,25 @@
+* 머신러닝 프로세스
+
+[1]데이터 로딩             :: iris --- 사이킷런에 내장되어 있음 
+[2]데이터 속성, 형태 등등 
+   -1) 문자가 존재... -> 숫자(정수 인코딩 // 원-핫 인코딩:: 더미변수)
+   -2) 결측치가 존재... -> imputation :: 최소/ 최대, 최빈, 평균, 중앙/ 해당컬럼 삭제
+
+[3] 데이터 분할 -> train_test_split :: train vs test의 비율을 쪼개는 방법     
+
+(y변수 = 종속변수= 반응변수= label= target= 목적변수 = 목표변수)
+[4] 알고리즘을 선택 -> 분류 -> classifier :: y변수가 범주형(명목형) 
+                               회귀 -> Regressor :: y변수가 연속형(비율척도) 
+
+[5] 평가 --> 분류 :: 혼동행렬
+                 회귀 :: MSE, RMSE, MAE, MAPE MSLE.... 
+
+[6] Hyper-Parameter Tuning - Manual search, Grid Search, Random Search 
+
+
+
+
+
+
+
+
