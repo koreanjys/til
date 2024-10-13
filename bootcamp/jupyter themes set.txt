@@ -1,5 +1,0 @@
-pip install jupyterthemes
-
-jt -t onedork -T -N -kl -f roboto -fs 12 -tfs 12 -nfs 14 -tfs 14 -ofs 12 -cellw 90% -lineh 170 -cursc r -cursw 3
-
-jt -t gruvboxl -T -N -kl -f roboto -fs 12 -tfs 12 -nfs 14 -tfs 14 -ofs 12 -cellw 90% -lineh 170 -cursc r -cursw 3
