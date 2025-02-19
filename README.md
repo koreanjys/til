@@ -1,3 +1,29 @@
-# 알아두면 쓸모있는 웹사이트
-
-## 삼성 SDS 인사이트 리포트
+# TIL
+## 목록
+- 부트캠프
+    - [Python 학습](./bootcamp/01_python/python.md)
+    - [django 학습](./bootcamp/03_django/django.md)
+    - [git 학습](./bootcamp/git/git_basic.md)
+    - [마크다운 학습](./bootcamp/markdown/md_basic.md)
+    - 머신러닝 학습
+        - [머신러닝 confusion_matrix](./bootcamp/05_m_d_learning/ML/230313_confusion_matrix.md)
+        - [머신러닝 svm](./bootcamp/05_m_d_learning/ML/230314_svm.md)
+        - [머신러닝 비지도학습](./bootcamp/05_m_d_learning/ML/230315_비지도학습.md)
+        - [머신러닝 preprocess](./bootcamp/05_m_d_learning/ML/230321_preprocess.md)
+    - 딥러닝 학습
+        - [딥러닝 첫수업](./bootcamp/05_m_d_learning/DL/230322_DL_start.md)
+        - [딥러닝 optimization](./bootcamp/05_m_d_learning/DL/230323_DL_optimization.md)
+        - [딥러닝 process](./bootcamp/05_m_d_learning/DL/230324_DL_process.md)
+        - [딥러닝 callback](./bootcamp/05_m_d_learning/DL/230327_DL_callback.md)
+        - [딥러닝 CNN](./bootcamp/05_m_d_learning/DL/230328_DL_CNN.md)
+- Docker 공부
+    - [Docker 서비스와 로컬 Mysql연결](./docker/connected_docker_mysql.md)
+    - [Docker 학습](./docker/study_docker.md)
+- Langchain 구현
+    - [Langchain 로직 순서](./LangChain/langchain.md)
+- Python 공부
+    - [Class 기본](./python/class.md)
+- 일학습병행 2차(서버 프로그램 개발)
+    - [환경설정, 네트워크](./work_and_study_class/2025-02-17_network.md)
+    - [애플리케이션 테스트](./work_and_study_class/2025-02-18_app_test.md)
+    - [클린코드, 자바스크립트](./work_and_study_class/2025-02-19_clean_code.md)
