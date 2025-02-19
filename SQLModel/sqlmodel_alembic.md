@@ -1,4 +1,4 @@
-# SQLModel과 alembic 연동
+# SQLModel과 alembic 연동(2024-03-06)
 
 ## 1. 설치
 ```

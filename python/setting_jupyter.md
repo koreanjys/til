@@ -1,21 +1,38 @@
-## 가상환경(venv)에서 jupyter notebook 실행 및 연결 하려면..
-1. 가상환경을 생성한다.
-```
-$ python -m venv venv
-```
-2. 가상환경에 연결
-```
-$ source venv/Script/activate
-```
-3. jupyter 설치
-```
-(venv)$ pip install jupyter
-```
-4. ipykernel 설치
-```
-(venv)$ pip install ipykernel
-```
-5. jupyter에 커널 추가(myenv는 유동적으로 변경해줄 수 있다.)
-```
-(venv)$ python -m ipykernel install --user --name=myenv
-```
+## Jupyter 노트북을 가상환경 커널에서 실행하는 방법
+1. **가상환경 생성**
+   ```sh
+   $ python -m venv venv
+   ```
+
+2. **가상환경 활성화**
+   - Windows (CMD/PowerShell)
+    ```sh
+    venv\Scripts\activate
+    ```
+   - macOS/Linux
+    ```sh
+    source venv/bin/activate
+    ```
+
+3. **Jupyter 설치**
+   ```sh
+   (venv)$ pip install jupyter
+   ```
+
+4. **IPython Kernel 설치**
+   ```sh
+   (venv)$ pip install ipykernel
+   ```
+
+5. **Jupyter에 가상환경 커널 추가**
+   ```sh
+   (venv)$ python -m ipykernel install --user --name=myenv --display-name "Python (myenv)"
+   ```
+
+6. **Jupyter Notebook 실행**
+   ```sh
+   (venv)$ jupyter notebook
+   ```
+
+7. **Jupyter에서 가상환경 선택**
+   - 실행 후 **Kernel > Change Kernel**에서 `Python (myenv)` 선택
