@@ -97,6 +97,9 @@ obj1.greeting = 'hello'  # obj1의 인스턴스 변수로 변경
 print(obj1.greeting)  # 출력: hello
 print(obj2.greeting)  # 출력: hi
 print(Hi.greeting)  # 출력: hi
+Hi.greeting = 'Bye' # Hi의 클래스변수 변경
+print(obj1.greeting)  # 출력: hello -> 위에서 obj1.greeting으로 greeting 변수가 obj1의 인스턴스 변수로 덮어씌여서 클래스변수 greeting과 별개의 변수가 됐다.
+print(obj2.greeting)  # 출력: Bye
 ```
 
 - `obj1.greeting`을 변경했지만, 이는 `obj1`의 인스턴스 변수로 새롭게 설정된 것이며, `obj2`와 `Hi` 클래스의 `greeting`에는 영향을 주지 않는다.
