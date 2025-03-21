@@ -56,5 +56,7 @@ int main(void)
     printf("Volume (cubic inches): %d\n", volume);
     printf("Dimensional weight (pounds): %d\n", weight);
 
+    getchar();  // 사용자가 엔터를 입력해야 넘어감
+
     return 0;
 }
